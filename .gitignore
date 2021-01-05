@@ -5,7 +5,9 @@ __pycache__/
 
 # C extensions
 *.so
-
+shapes/ 
+*.DS_Store
+*.ipynb
 # Distribution / packaging
 .Python
 build/
