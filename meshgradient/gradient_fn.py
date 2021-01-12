@@ -2,10 +2,12 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+from typing import Dict, Tuple,  Optional, List, Any
+
 import numpy as np
 import tensorflow as tf
 
-def compute_div_from_grad(grad):
+def compute_div_from_grad(grad: np.ndarray) -> np.ndarray:
     """Compute divergence of a 2D vector field.
     Arguments:
         grad: gradient vector field
@@ -16,7 +18,7 @@ def compute_div_from_grad(grad):
     return grad[:, 0] + grad[:, 4]
 
 
-def compute_sca_grad_from_grad(field, grad):
+def compute_sca_grad_from_grad(field: np.ndarray, grad: np.ndarray) -> np.ndarray:
     """Compute scalar gradient operator for NS equations in 2D.
     Arguments:
         field: vector field (velocity)
@@ -38,11 +40,11 @@ def compute_sca_grad_from_grad(field, grad):
 
 
 def compute_gradient_per_points(
-    gradient_matrices, F, b1=None, b2=None, b3=None, b4=None
-):
+    gradient_matrices: tf.sparse.SparseTensor, F: np.ndarray, b1: Optional[np.ndarray]=None, b2: Optional[np.ndarray]=None, b3: Optional[np.ndarray]=None, b4: Optional[np.ndarray]=None
+) -> np.ndarray:
     """Compute gradient on vertex of a scalar fields.
 
-    For most cells, gradient is computed accordingly to AGS methods and for 
+    For most cells, gradient is computed accordingly to AGS methods and for
     the boundaries we use another average of cells gradient
 
     Arguments:
@@ -52,7 +54,7 @@ def compute_gradient_per_points(
         b2: boundary flag
         b3: boundary flag
         b4: boundary flag
-        
+
     Returns:
         The gradient field.
     Raises:
@@ -83,7 +85,8 @@ def compute_gradient_per_points(
     return g_F
 
 
-def compute_laplacian_scalar_field(G, SF, b1, b2, b3, b4):
+def compute_laplacian_scalar_field(G: tf.sparse.SparseTensor, SF: np.ndarray, b1: Optional[np.ndarray]=None, b2: Optional[np.ndarray]=None, b3: Optional[np.ndarray]=None, b4: Optional[np.ndarray]=None
+) -> np.ndarray:
     """Compute laplacian on vertex of a scalar fields.
 
     Arguments:
@@ -93,7 +96,7 @@ def compute_laplacian_scalar_field(G, SF, b1, b2, b3, b4):
         b2: boundary flag
         b3: boundary flag
         b4: boundary flag
-        
+
     Returns:
         The laplacian field.
     Raises:
@@ -109,7 +112,8 @@ def compute_laplacian_scalar_field(G, SF, b1, b2, b3, b4):
     return laplacian_SF
 
 
-def compute_laplacian_vector_field(G, VF, b1, b2, b3, b4):
+def compute_laplacian_vector_field(G: tf.sparse.SparseTensor, VF: np.ndarray, b1: Optional[np.ndarray]=None, b2: Optional[np.ndarray]=None, b3: Optional[np.ndarray]=None, b4: Optional[np.ndarray]=None
+) -> np.ndarray:
     """Compute laplacian on vertex of a vector fields.
 
     Arguments:
@@ -119,7 +123,7 @@ def compute_laplacian_vector_field(G, VF, b1, b2, b3, b4):
         b2: boundary flag
         b3: boundary flag
         b4: boundary flag
-        
+
     Returns:
         The laplacian field.
     Raises:

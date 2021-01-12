@@ -2,20 +2,23 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+from typing import Dict, Tuple,  Optional, List, Any
+
 import numpy as np
 import tensorflow as tf
 import progressbar
+import meshio
 
 from .utils import get_cycle, get_area_from_points, get_triangles
 
-def build_CON_matrix(mesh):
+def build_CON_matrix(mesh: meshio.Mesh) -> tf.sparse.SparseTensor:
     """Build connectivity matrix to compute gradient on boundaries.
-        
+
     A[i,j] = area[j] / total_area[i]
         area[j] is the area of the cell j
         total_area is the sum of all cell areas where node i is a vertex of a cell.
     shape = (#vertex, #cells)
-    
+
     Arguments:
         mesh: a meshio object
 
@@ -30,7 +33,7 @@ def build_CON_matrix(mesh):
     tf_values = []
     tf_shape = (len(points), len(triangles))
 
-    #for indx_point in progressbar.progressbar(range(len(points))):
+    # for indx_point in progressbar.progressbar(range(len(points))):
     for indx_point in range(len(points)):
         indx_triangles = np.argwhere(triangles == indx_point)[:, 0]
         cell_triangles = triangles[indx_triangles]
@@ -53,11 +56,11 @@ def build_CON_matrix(mesh):
     return Sp_tf_CON_matrix
 
 
-def build_PCE_matrix(mesh):
+def build_PCE_matrix(mesh: meshio.Mesh) -> tf.sparse.SparseTensor:
     """Build Per Cell Average matrix to compute gradient on cells.
-        
+
     shape = (3 * #cells, #points)
-    
+
     Arguments:
         mesh: a meshio object
 
@@ -73,7 +76,7 @@ def build_PCE_matrix(mesh):
 
     rot = np.array([[0, -1, 0], [1, 0, 0], [0, 0, 0]])
 
-    #for i in progressbar.progressbar(range(len(triangles))):
+    # for i in progressbar.progressbar(range(len(triangles))):
     for i in range(len(triangles)):
         dot_products = []
         curr_triangle = triangles[i]
@@ -111,11 +114,11 @@ def build_PCE_matrix(mesh):
     return Sp_tf_PCE_matrix
 
 
-def build_AGS_matrix(mesh):
+def build_AGS_matrix(mesh: meshio.Mesh) -> tf.sparse.SparseTensor:
     """Build Average Gradient Star matrix to compute gradient on cells.
-        
+
     shape = (3 * #vertex, #vertex)
-    
+
     Arguments:
         mesh: a meshio object
 
@@ -130,7 +133,7 @@ def build_AGS_matrix(mesh):
     tf_shape = (3 * n_nodes, n_nodes)
 
     rot = np.array([[0, -1, 0], [1, 0, 0], [0, 0, 0]])
-    #for i in progressbar.progressbar(range(n_nodes)):
+    # for i in progressbar.progressbar(range(n_nodes)):
     for i in range(n_nodes):
 
         indx_node = i
