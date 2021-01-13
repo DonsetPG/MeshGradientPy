@@ -60,7 +60,8 @@ def get_cycle(mesh: meshio.Mesh, indx_node: int) -> Tuple[List[Tuple[int]], bool
         return [], False
 
     unique_indx: np.ndarray
-    counts_indx: np.ndarray = np.unique(indx_triangle.flatten(), return_counts=True)
+    counts_indx: np.ndarray 
+    unique_indx, counts_indx = np.unique(indx_triangle.flatten(), return_counts=True)
     list_of_triangles: List[Tuple[int]] = []
 
     cnt: int

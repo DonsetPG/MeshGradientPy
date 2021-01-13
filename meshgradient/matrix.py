@@ -149,7 +149,8 @@ def build_AGS_matrix(mesh: meshio.Mesh) -> tf.sparse.SparseTensor:
     i: int
     for indx_node, node in enumerate(mesh.points):
         triangles: List[Tuple[int]]
-        flag_b: bool = get_cycle(mesh, indx_node)
+        flag_b: bool 
+        triangles, flag_b = get_cycle(mesh, indx_node)
         if len(triangles) > 0:
             prev_triangle = triangles[0]
             area = 0.0
@@ -162,8 +163,7 @@ def build_AGS_matrix(mesh: meshio.Mesh) -> tf.sparse.SparseTensor:
                 curr = prev_triangle[2]
                 next = curr_triangle[2]
 
-                if i == 0 and flag_b:
-                    area += get_area_from_points(mesh, (prev, vid, curr))
+                if i == 0 and flag_b: area += get_area_from_points(mesh, (prev, vid, curr))
 
                 area += get_area_from_points(mesh, (curr, vid, next))
 
