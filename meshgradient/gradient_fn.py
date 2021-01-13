@@ -90,6 +90,7 @@ def compute_gradient_per_points(
         )
         mask = tf.repeat(mask, 3)
         mask = tf.reshape(mask, (len(mask), 1))
+        mask = tf.cast(mask, tf.float32)
         g_F = tf.math.multiply(gp_F, mask) + tf.math.multiply(gb_F, 1 - mask)
     else:
         g_F = gp_F
