@@ -38,7 +38,7 @@ We use three different methods to compute the gradient of a field:
 
 You can use any of these three methods or use our built-in functions to compute gradients (that makes the best of these three methods at the same time)
 
-We based our implementation on the one provided with the paper [Gradient Field Estimation on Triangle Meshes](https://www.researchgate.net/publication/330412652_Gradient_Field_Estimation_on_Triangle_Meshes). We describe the basic principles of the methods below, more details can be found in the paper.
+We based our implementation on the one provided by the authors of the paper [Gradient Field Estimation on Triangle Meshes](https://www.researchgate.net/publication/330412652_Gradient_Field_Estimation_on_Triangle_Meshes). We describe below the main ideas of the methods, more details can be found in the paper.
 
 These three methods were built for triangle cells. Any other sort of cells won't be considered. 
 
